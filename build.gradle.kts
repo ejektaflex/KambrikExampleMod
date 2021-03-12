@@ -6,15 +6,11 @@ plugins {
 	kotlin("jvm") version "1.4.30"
 	kotlin("plugin.serialization") version "1.4.30"
 	id("fabric-loom") version "0.6-SNAPSHOT"
-	`maven-publish`
-	signing
 }
 
 java {
 	sourceCompatibility = JavaVersion.VERSION_1_8
 	targetCompatibility = JavaVersion.VERSION_1_8
-	withSourcesJar()
-	withJavadocJar()
 }
 
 val modId: String by project
@@ -25,28 +21,16 @@ val fabricVersion: String by project
 val kotlinVersion: String by project
 val loaderVersion: String by project
 val yarnMappings: String by project
-val pkgName: String by project
-val pkgDesc: String by project
-val pkgAuthor: String by project
-val pkgEmail: String by project
-val pkgHub: String by project
 
 project.group = group
 version = modVersion
 
 repositories {
+	mavenLocal()
 	mavenCentral()
-	maven(url = "https://kotlin.bintray.com/kotlinx")
 	maven(url = "http://maven.fabricmc.net/") {
 		name = "Fabric"
 	}
-	maven(url = "https://maven.terraformersmc.com/") {
-		name = "Mod Menu"
-	}
-}
-
-minecraft {
-
 }
 
 dependencies {
@@ -55,8 +39,8 @@ dependencies {
 	mappings("net.fabricmc:yarn:${yarnMappings}:v2")
 	modImplementation("net.fabricmc:fabric-loader:${loaderVersion}")
 
-	modImplementation("io.ejekta:kambrik:0.2.0")
-	modApi("io.ejekta:kambrik:0.2.0")
+	// Kambrik API
+	modImplementation("io.ejekta:kambrik:0.2.+")
 
 	implementation("com.google.code.findbugs:jsr305:3.0.2")
 
