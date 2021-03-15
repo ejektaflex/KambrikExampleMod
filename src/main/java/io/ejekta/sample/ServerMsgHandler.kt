@@ -2,11 +2,8 @@ package io.ejekta.sample
 
 import io.ejekta.kambrik.ext.unwrapToTag
 import io.ejekta.kambrik.ext.wrapToPacketByteBuf
-import io.ejekta.kambrikx.api.serial.nbt.NbtFormat
-import kotlinx.serialization.ExperimentalSerializationApi
+import io.ejekta.sample.packet.IPacketInfo
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Transient
-import kotlinx.serialization.modules.SerializersModule
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.PacketSender
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
@@ -16,15 +13,20 @@ import net.minecraft.server.network.ServerPlayNetworkHandler
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 
-abstract class ServerMsgHandler<M : KambrikServerboundMessage>(val serializer: KSerializer<M>) : ServerPlayNetworking.PlayChannelHandler {
+open class ServerMsgHandler<M : ServerboundMessage<M>>(
+    override val id: Identifier,
+    override val serializer: KSerializer<M>
+    ) : ServerPlayNetworking.PlayChannelHandler,
+    IPacketInfo<M> {
 
-    abstract val id: Identifier
+    //override val id: Identifier
+    //override val serializer: KSerializer<KambrikServerboundMessage>
 
     fun registerOnServer() {
         ServerPlayNetworking.registerGlobalReceiver(id, ::receive)
     }
 
-    override fun receive(
+    final override fun receive(
         server: MinecraftServer,
         player: ServerPlayerEntity,
         handler: ServerPlayNetworkHandler,
@@ -35,7 +37,7 @@ abstract class ServerMsgHandler<M : KambrikServerboundMessage>(val serializer: K
         val data = format.decodeFromTag(serializer, contents)
         server.execute {
             println("KSM??: :D!")
-            data.onGet(server, player, handler, responseSender)
+            data.onReceived(ServerboundMessage.ServerMsgContext(server, player, handler, responseSender))
             println("KSM!!: :D!")
         }
     }
@@ -45,14 +47,6 @@ abstract class ServerMsgHandler<M : KambrikServerboundMessage>(val serializer: K
             id,
             format.encodeToTag(serializer, payload).wrapToPacketByteBuf()
         )
-    }
-
-    @OptIn(ExperimentalSerializationApi::class)
-    @Transient
-    open val format: NbtFormat = NbtFormat {
-        serializersModule = SerializersModule {
-            include(NbtFormat.BuiltInSerializers)
-        }
     }
 
 }

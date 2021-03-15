@@ -9,6 +9,8 @@ import kotlinx.serialization.modules.SerializersModule
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.command.argument.EntityArgumentType.*
@@ -29,7 +31,7 @@ class SampleMod : ModInitializer {
         logger.info("Kambrik Sample Mod Says Hello!")
         registerCommands()
 
-        StringMessage.Handler.registerOnServer()
+        StringMessage.registerOnServer()
 
     }
 
@@ -68,7 +70,10 @@ class SampleMod : ModInitializer {
                 }
 
                 literal("doot") runs {
-                    StringMessage.Handler.sendToServer(StringMessage("Hello!"))
+
+                    val msg = StringMessage("Hello!")
+                    msg.sendToServer()
+
                     1
                 }
 
