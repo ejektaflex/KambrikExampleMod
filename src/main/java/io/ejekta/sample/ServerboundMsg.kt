@@ -9,16 +9,16 @@ import net.minecraft.server.network.ServerPlayNetworkHandler
 import net.minecraft.server.network.ServerPlayerEntity
 
 
-interface ServerboundMessage<M : ServerboundMessage<M>> : KambrikMessage, IPacketInfo<M> {
+interface ServerboundMsg<M : ServerboundMsg<M>> : KambrikMessage, IPacketInfo<M> {
 
-    data class ServerMsgContext(
+    data class Context(
         val server: MinecraftServer,
         val player: ServerPlayerEntity,
         val handler: ServerPlayNetworkHandler,
         val responseSender: PacketSender
     )
 
-    fun onReceived(context: ServerMsgContext) {
+    fun onReceived(ctx: Context) {
         println("ON GOT!!! :D!! ")
     }
 

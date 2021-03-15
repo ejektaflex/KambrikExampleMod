@@ -3,7 +3,6 @@ package io.ejekta.sample
 import io.ejekta.kambrik.ext.unwrapToTag
 import io.ejekta.kambrik.ext.wrapToPacketByteBuf
 import io.ejekta.sample.packet.IPacketInfo
-import kotlinx.serialization.KSerializer
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.PacketSender
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
@@ -11,12 +10,8 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayNetworkHandler
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.Identifier
 
-open class ServerMsgHandler<M : ServerboundMessage<M>>(
-    override val id: Identifier,
-    override val serializer: KSerializer<M>
-    ) : ServerPlayNetworking.PlayChannelHandler,
+interface ServerMsgHandler<M : ServerboundMsg<M>> : ServerPlayNetworking.PlayChannelHandler,
     IPacketInfo<M> {
 
     //override val id: Identifier
@@ -26,7 +21,7 @@ open class ServerMsgHandler<M : ServerboundMessage<M>>(
         ServerPlayNetworking.registerGlobalReceiver(id, ::receive)
     }
 
-    final override fun receive(
+    override fun receive(
         server: MinecraftServer,
         player: ServerPlayerEntity,
         handler: ServerPlayNetworkHandler,
@@ -37,7 +32,7 @@ open class ServerMsgHandler<M : ServerboundMessage<M>>(
         val data = format.decodeFromTag(serializer, contents)
         server.execute {
             println("KSM??: :D!")
-            data.onReceived(ServerboundMessage.ServerMsgContext(server, player, handler, responseSender))
+            data.onReceived(ServerboundMsg.Context(server, player, handler, responseSender))
             println("KSM!!: :D!")
         }
     }

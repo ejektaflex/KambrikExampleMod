@@ -1,23 +1,12 @@
 package io.ejekta.sample
 
-import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType.getString
 import io.ejekta.kambrik.Kambrik
-import io.ejekta.kambrik.api.command.getString
-import io.ejekta.kambrikx.api.serial.nbt.NbtFormat
-import kotlinx.serialization.modules.SerializersModule
 import net.fabricmc.api.ModInitializer
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.command.argument.EntityArgumentType.*
 import net.minecraft.entity.LivingEntity
-import net.minecraft.server.network.ServerPlayNetworkHandler
 import net.minecraft.text.LiteralText
-import net.minecraft.util.Identifier
 
 class SampleMod : ModInitializer {
 
@@ -31,7 +20,7 @@ class SampleMod : ModInitializer {
         logger.info("Kambrik Sample Mod Says Hello!")
         registerCommands()
 
-        StringMessage.registerOnServer()
+        StringMessage.Handler.registerOnServer()
 
     }
 
