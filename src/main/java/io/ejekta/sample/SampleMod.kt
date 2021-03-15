@@ -23,17 +23,13 @@ class SampleMod : ModInitializer {
         const val ID = "sample"
     }
 
-    val logger = Kambrik.Logging.createLogger(ID)
-
-    val packetModule = SerializersModule {
-        include(NbtFormat.BuiltInSerializers)
-    }
+    private val logger = Kambrik.Logging.createLogger(ID)
 
     override fun onInitialize() {
         logger.info("Kambrik Sample Mod Says Hello!")
         registerCommands()
 
-        StringMsg.registerOnServer()
+        StringMessage.Handler.registerOnServer()
 
     }
 
@@ -72,7 +68,7 @@ class SampleMod : ModInitializer {
                 }
 
                 literal("doot") runs {
-                    StringMsg.sendToServer(StringMsg.Payload("Hello!"))
+                    StringMessage.Handler.sendToServer(StringMessage("Hello!"))
                     1
                 }
 
