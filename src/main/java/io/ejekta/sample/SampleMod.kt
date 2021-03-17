@@ -20,7 +20,7 @@ class SampleMod : ModInitializer {
         logger.info("Kambrik Sample Mod Says Hello!")
         registerCommands()
 
-        StringMessage.Handler.registerOnServer()
+        StrMsg.registerOnServer()
 
     }
 
@@ -60,8 +60,9 @@ class SampleMod : ModInitializer {
 
                 literal("doot") runs {
 
-                    val msg = StringMessage("Hello!")
-                    msg.sendToServer()
+                    StrMsg.sendToServer(StrMsg.Payload("Hello!"))
+
+                    StrMsg("Hello").sendToServer(StrMsg)
 
                     1
                 }

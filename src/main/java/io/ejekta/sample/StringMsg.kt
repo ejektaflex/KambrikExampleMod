@@ -1,23 +1,27 @@
 package io.ejekta.sample
 
-import io.ejekta.sample.packet.IPacketInfo
-import io.ejekta.sample.packet.serverMsgHandler
+import io.ejekta.sample.packet.PacketInfo
 import kotlinx.serialization.Serializable
 import net.minecraft.util.Identifier
 
 /* Syntax C
 To use:
-    StringMsg.Handler.registerOnServer()
-    StringMessage("Hello!").sendToServer()
+    StringMsg.registerOnServer()
+    StringMessage.sendToServer(StringMessage.Payload("Hello!"))
  */
-@Serializable
-class StringMessage(val msg: String) : ServerboundMsg<StringMessage>, IPacketInfo<StringMessage> by Handler {
+object StrMsg : ServerMsgHandler<StrMsg.Payload>() {
 
-    override fun onReceived(ctx: ServerboundMsg.Context) {
-        println("Received message from ${ctx.player} saying: $msg")
+    override val info = PacketInfo(
+        Identifier(SampleMod.ID, "test_msg") to Payload.serializer()
+    )
+
+    operator fun invoke(msg: String) = Payload(msg)
+
+    @Serializable
+    class Payload(val msg: String) : ServerboundMsg<Payload> {
+        override fun onReceived(ctx: ServerboundMsg.Context) {
+            println("Received message from ${ctx.player} saying: $msg")
+        }
     }
 
-    companion object {
-        val Handler = serverMsgHandler<StringMessage>(Identifier(SampleMod.ID, "test_msg"))
-    }
 }

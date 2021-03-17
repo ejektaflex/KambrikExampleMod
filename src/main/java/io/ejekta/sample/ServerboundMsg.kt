@@ -9,7 +9,7 @@ import net.minecraft.server.network.ServerPlayNetworkHandler
 import net.minecraft.server.network.ServerPlayerEntity
 
 
-interface ServerboundMsg<M : ServerboundMsg<M>> : KambrikMessage, IPacketInfo<M> {
+interface ServerboundMsg<M : ServerboundMsg<M>> : KambrikMessage {
 
     data class Context(
         val server: MinecraftServer,
@@ -22,11 +22,8 @@ interface ServerboundMsg<M : ServerboundMsg<M>> : KambrikMessage, IPacketInfo<M>
         println("ON GOT!!! :D!! ")
     }
 
-    fun sendToServer() {
-        ClientPlayNetworking.send(
-            id,
-            format.encodeToTag(serializer, this as M).wrapToPacketByteBuf()
-        )
+    fun sendToServer(handler: ServerMsgHandler<M>) {
+        handler.sendToServer(this as M)
     }
 
 }

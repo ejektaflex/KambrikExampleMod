@@ -8,4 +8,8 @@ data class PacketInfo<S>(
     override val id: Identifier,
     override val serializer: KSerializer<S>,
     override val format: NbtFormat = NbtFormat.Default
-) : IPacketInfo<S>
+) : IPacketInfo<S> {
+
+    constructor(idPair: Pair<Identifier, KSerializer<S>>) : this(idPair.first, idPair.second)
+
+}
