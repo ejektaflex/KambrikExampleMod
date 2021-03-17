@@ -2,6 +2,7 @@ package io.ejekta.sample
 
 import com.mojang.brigadier.arguments.StringArgumentType.getString
 import io.ejekta.kambrik.Kambrik
+import io.ejekta.kambrikx.api.serial.nbt.NbtFormat
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
 import net.minecraft.command.argument.EntityArgumentType.*
@@ -20,7 +21,9 @@ class SampleMod : ModInitializer {
         logger.info("Kambrik Sample Mod Says Hello!")
         registerCommands()
 
-        StrMsg.registerOnServer()
+        println("NBT DEFAULT: ${NbtFormat.Default}")
+
+        StringMsg.registerOnServer()
 
     }
 
@@ -60,10 +63,15 @@ class SampleMod : ModInitializer {
 
                 literal("doot") runs {
 
-                    StrMsg.sendToServer(StrMsg.Payload("Hello!"))
+                    StringMsg("Hai!").sendToServer()
 
-                    StrMsg("Hello").sendToServer(StrMsg)
+                    1
+                }
 
+                literal("doooot") runs {
+                    it.source.minecraftServer.execute {
+                        StringMsg("Hai!").sendToServer()
+                    }
                     1
                 }
 
