@@ -1,9 +1,9 @@
-package io.ejekta.sample
+package io.ejekta.sample.networking
 
 import io.ejekta.kambrik.ext.wrapToPacketByteBuf
+import io.ejekta.sample.KambrikMessage
 import io.ejekta.sample.packet.IPacketInfo
 import io.ejekta.sample.packet.IPacketInfo.Companion.dummy
-import io.ejekta.sample.packet.PacketInfo
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
@@ -13,18 +13,17 @@ import net.minecraft.server.network.ServerPlayNetworkHandler
 import net.minecraft.server.network.ServerPlayerEntity
 
 @Serializable
-abstract class ServerMsg<M : ServerMsg<M>>(@Transient val info: IPacketInfo<M> = dummy()) : KambrikMessage, IPacketInfo<M> by info {
+open class ServerMsg<M : ServerMsg<M>>(@Transient val info: IPacketInfo<M> = dummy()) : KambrikMessage, IPacketInfo<M> by info {
 
-
-    data class Context(
+    data class ServerMsgContext(
         val server: MinecraftServer,
         val player: ServerPlayerEntity,
         val handler: ServerPlayNetworkHandler,
         val responseSender: PacketSender
     )
 
-    open fun onServerReceived(ctx: Context) {
-        println("ON GOT!!! :D!! ")
+    open fun onServerReceived(ctx: ServerMsgContext) {
+
     }
 
     fun sendToServer() {
@@ -33,5 +32,4 @@ abstract class ServerMsg<M : ServerMsg<M>>(@Transient val info: IPacketInfo<M> =
             serializePacket(this as M).wrapToPacketByteBuf()
         )
     }
-
 }

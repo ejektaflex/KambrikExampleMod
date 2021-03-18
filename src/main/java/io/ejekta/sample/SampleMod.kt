@@ -23,7 +23,8 @@ class SampleMod : ModInitializer {
 
         println("NBT DEFAULT: ${NbtFormat.Default}")
 
-        StringMsg.registerOnServer()
+        StringMsg.Handler.register()
+        ToPlayer.Handler.register()
 
     }
 
