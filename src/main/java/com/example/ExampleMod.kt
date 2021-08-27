@@ -1,9 +1,7 @@
 package com.example
 
 import io.ejekta.kambrik.Kambrik
-import io.ejekta.kambrikx.data.configData
 import net.fabricmc.api.ModInitializer
-import net.minecraft.util.Identifier
 
 class ExampleMod : ModInitializer {
 

@@ -9,9 +9,9 @@ plugins {
 // https://modmuss50.me/fabric.html
 object Versions {
 	object Mod {
-		const val ID = "sample"
+		const val ID = "example"
 		const val Version = "0.0.1"
-		const val Group = "io.ejekta"
+		const val Group = "com.example"
 	}
 	object Fabric {
 		const val API = "0.39.2+1.17"
@@ -23,7 +23,7 @@ object Versions {
 		const val Minecraft = "1.17.1"
 		const val Kotlin = "1.5.30"
 		const val KotlinxXSerialization = "1.2.2"
-		const val Kambrik = "1.1.0-SNAPSHOT+"
+		const val Kambrik = "1.0.0"
 	}
 }
 
