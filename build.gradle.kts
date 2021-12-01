@@ -1,9 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	kotlin("jvm") version "1.5.30"
-	kotlin("plugin.serialization") version "1.5.30"
-	id("fabric-loom") version "0.8-SNAPSHOT"
+	kotlin("jvm") version "1.6.0"
+	kotlin("plugin.serialization") version "1.6.0"
+	id("fabric-loom") version "0.10-SNAPSHOT"
 }
 
 // https://modmuss50.me/fabric.html
@@ -14,22 +14,22 @@ object Versions {
 		const val Group = "com.example"
 	}
 	object Fabric {
-		const val API = "0.39.2+1.17"
-		const val Loader = "0.11.6"
-		const val Yarn = "1.17.1+build.46"
-		const val KotlinAdapter = "1.6.4+kotlin.1.5.30"
+		const val API = "0.43.1+1.18"
+		const val Loader = "0.12.8"
+		const val Yarn = "1.18+build.1"
+		const val KotlinAdapter = "1.7.0+kotlin.1.6.0"
 	}
 	object Dependencies {
-		const val Minecraft = "1.17.1"
+		const val Minecraft = "1.18"
 		const val Kotlin = "1.5.30"
 		const val KotlinxXSerialization = "1.2.2"
-		const val Kambrik = "1.1.0"
+		const val Kambrik = "3.+"
 	}
 }
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_16
-	targetCompatibility = JavaVersion.VERSION_16
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
 	withSourcesJar()
 	withJavadocJar()
 }
@@ -76,6 +76,6 @@ tasks.getByName<ProcessResources>("processResources") {
 
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
-		jvmTarget = "16"
+		jvmTarget = "17"
 	}
 }
