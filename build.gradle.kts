@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	kotlin("jvm") version "1.6.0"
+	kotlin("jvm") version "1.6.10"
 	kotlin("plugin.serialization") version "1.6.0"
 	id("fabric-loom") version "0.10-SNAPSHOT"
 }
@@ -14,14 +14,14 @@ object Versions {
 		const val Group = "com.example"
 	}
 	object Fabric {
-		const val API = "0.43.1+1.18"
-		const val Loader = "0.12.8"
-		const val Yarn = "1.18+build.1"
-		const val KotlinAdapter = "1.7.0+kotlin.1.6.0"
+		const val API = "0.45.0+1.18"
+		const val Loader = "0.12.12"
+		const val Yarn = "1.18.1+build.14"
+		const val KotlinAdapter = "1.7.1+kotlin.1.6.10"
 	}
 	object Dependencies {
-		const val Minecraft = "1.18"
-		const val Kotlin = "1.5.30"
+		const val Minecraft = "1.18.1"
+		const val Kotlin = "1.6.10"
 		const val KotlinxXSerialization = "1.2.2"
 		const val Kambrik = "3.+"
 	}
